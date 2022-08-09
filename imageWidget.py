@@ -3,7 +3,7 @@
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QImage, QPixmap, QPalette
-from PyQt5.QtWidgets import QApplication, QClipboard
+from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget, QLabel, QSizePolicy, QMessageBox, QPushButton, QVBoxLayout, QScrollArea, QPlainTextEdit, QLineEdit
 
 import imageMetaData
