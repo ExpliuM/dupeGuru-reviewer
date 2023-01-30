@@ -10,6 +10,16 @@ import os
 import resultsXML
 import sys
 
+import sys
+from pathlib import Path
+
+# Load external module
+sys.path.append("modules/dupeguru")
+
+# from core.scanner import Scanner
+from core import directories
+from core.scanner import Scanner, ScanType
+
 MAC_LEFT_ARROW_KEY = 16777234
 MAC_RIGHT_ARROW_KEY = 16777236
 
@@ -26,6 +36,15 @@ class MainWindow(QMainWindow):
 
           self.paths = self.groups[self.groupIndex].getPaths()
         else:
+          scanner = Scanner()
+
+          scanner.scan_type = ScanType.FOLDERS
+          dirs = directories.Directories()
+          print(dirs)
+          dirs.add_path(Path('/Users/explium/OneDrive - Technion/Pictures/'))
+          files = list(dirs.get_folders())
+          print(scanner.get_dupe_groups(files))
+          
           self.paths = []
 
         self.previousButton = QPushButton("previous")

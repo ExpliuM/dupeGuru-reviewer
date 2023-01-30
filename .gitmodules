@@ -1,0 +1,3 @@
+[submodule "dupeguru"]
+	path = .modules/dupeguru
+	url = https://github.com/arsenetar/dupeguru/releases/tag/4.3.1
