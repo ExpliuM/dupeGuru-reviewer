@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 
-
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QHBoxLayout, QMainWindow, QPushButton, QVBoxLayout, QWidget
 
 import defines
-import sys
-import resultsXML
 import imageWidget
+import os
+import resultsXML
+import sys
 
 MAC_LEFT_ARROW_KEY = 16777234
 MAC_RIGHT_ARROW_KEY = 16777236
@@ -18,13 +18,15 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.resultsXMLObj = resultsXML.ResultsXML(
-            defines.RESULTS_FULL_FILE_PATH)
-        self.groups = self.resultsXMLObj.getGroups()
-        self.groupsLen = self.groups.__len__()
-        self.groupIndex = 0
+        if (os.path.isfile(defines.RESULTS_FULL_FILE_PATH)):
+          self.resultsXMLObj = resultsXML.ResultsXML(defines.RESULTS_FULL_FILE_PATH)
+          self.groups = self.resultsXMLObj.getGroups()
+          self.groupsLen = self.groups.__len__()
+          self.groupIndex = 0
 
-        self.paths = self.groups[self.groupIndex].getPaths()
+          self.paths = self.groups[self.groupIndex].getPaths()
+        else:
+          self.paths = []
 
         self.previousButton = QPushButton("previous")
         self.previousButton.clicked.connect(self.handlePrevious)
