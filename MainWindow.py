@@ -4,21 +4,22 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QHBoxLayout, QMainWindow, QPushButton, QVBoxLayout, QWidget
 
+
 import defines
 import imageWidget
 import os
 import resultsXML
+import subprocess
 import sys
 
-import sys
 from pathlib import Path
 
-# Load external module
-sys.path.append("modules/dupeguru")
+# # Load external module
+# sys.path.append("modules/dupeguru")
 
-# from core.scanner import Scanner
-from core import directories
-from core.scanner import Scanner, ScanType
+# # from core.scanner import Scanner
+# from core import directories
+# from core.scanner import Scanner, ScanType
 
 MAC_LEFT_ARROW_KEY = 16777234
 MAC_RIGHT_ARROW_KEY = 16777236
@@ -26,7 +27,18 @@ MAC_RIGHT_ARROW_KEY = 16777236
 
 class MainWindow(QMainWindow):
     def __init__(self):
+
         super().__init__()
+
+        if (not os.path.isfile(defines.RESULTS_FULL_FILE_PATH)):
+          # wd = os.getcwd()
+          # os.chdir('./modules/dupeguru/')
+          # print(subprocess.call("ls"))
+          # p = subprocess.call('puthon run.py')
+          # os.chdir(wd)
+
+          p = subprocess.call('python3 ./modules/dupeguru/run.py')
+          p.wait()
 
         if (os.path.isfile(defines.RESULTS_FULL_FILE_PATH)):
           self.resultsXMLObj = resultsXML.ResultsXML(defines.RESULTS_FULL_FILE_PATH)
@@ -36,14 +48,14 @@ class MainWindow(QMainWindow):
 
           self.paths = self.groups[self.groupIndex].getPaths()
         else:
-          scanner = Scanner()
+          # scanner = Scanner()
 
-          scanner.scan_type = ScanType.FOLDERS
-          dirs = directories.Directories()
-          print(dirs)
-          dirs.add_path(Path('/Users/explium/OneDrive - Technion/Pictures/'))
-          files = list(dirs.get_folders())
-          print(scanner.get_dupe_groups(files))
+          # scanner.scan_type = ScanType.FOLDERS
+          # dirs = directories.Directories()
+          # print(dirs)
+          # dirs.add_path(Path('/Users/explium/OneDrive - Technion/Pictures/'))
+          # files = list(dirs.get_folders())
+          # print(scanner.get_dupe_groups(files))
           
           self.paths = []
 
