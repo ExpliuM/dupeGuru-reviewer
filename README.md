@@ -1,19 +1,25 @@
 # Install
 ```bash
   python3 -m venv ./env
-  pip3 install -r requirements.txt
+  ./env/bin/pip3 install -r requirements.txt
 
-  cd module/dupeguru
+  mkdir -p ./module
+  cd module
+  git clone https://github.com/arsenetar/dupeguru.git
+  cd dupeguru
+  git checkout 4.3.1
+  
   python3 -m venv --system-site-packages ./env
   source ./env/bin/activate
-  pip3 install -r requirements.txt
-  python3 build.py
-  chmod +x modules/dupeguru/run.py
+  ./env/bin/pip3 install -r requirements.txt
+  ./env/bin/python3 build.py
+  chmod +x run.py
+  cd ../../
 ```
 
 # Run
 ```bash
-  python3 MainWindow.py
+  ./env/bin/python3 MainWindow.py
 ```
 
 # Future development
