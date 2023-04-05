@@ -1,3 +1,3 @@
 pathlib
-Pillow
-PyQt5
+pillow
+pyqt6

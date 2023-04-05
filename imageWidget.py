@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QImage, QPixmap, QPalette
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QWidget, QLabel, QSizePolicy, QMessageBox, QPushButton, QVBoxLayout, QScrollArea, QPlainTextEdit, QLineEdit
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QImage, QPixmap, QPalette
+from PyQt6.QtWidgets import QApplication
+from PyQt6.QtWidgets import QWidget, QLabel, QSizePolicy, QMessageBox, QPushButton, QVBoxLayout, QScrollArea, QPlainTextEdit, QLineEdit
 
 import imageMetaData
 import os

@@ -1,15 +1,15 @@
 #!/usr/bin/python3
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QHBoxLayout, QMainWindow, QPushButton, QVBoxLayout, QWidget
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QApplication
+from PyQt6.QtWidgets import QHBoxLayout, QMainWindow, QPushButton, QVBoxLayout, QWidget
 
 
 import defines
 import imageWidget
 import os
 import resultsXML
-import subprocess
+# import subprocess
 import sys
 
 from pathlib import Path
@@ -37,8 +37,9 @@ class MainWindow(QMainWindow):
           # p = subprocess.call('puthon run.py')
           # os.chdir(wd)
 
-          p = subprocess.call('python3 ./modules/dupeguru/run.py')
-          p.wait()
+        #   p = subprocess.call('python3 ./modules/dupeguru/run.py')
+        #   p.wait()
+            ...
 
         if (os.path.isfile(defines.RESULTS_FULL_FILE_PATH)):
           self.resultsXMLObj = resultsXML.ResultsXML(defines.RESULTS_FULL_FILE_PATH)
@@ -69,8 +70,8 @@ class MainWindow(QMainWindow):
 
         self.createUI()
 
-        self.nextButton.setFocusPolicy(Qt.StrongFocus)
-        self.previousButton.setFocusPolicy(Qt.StrongFocus)
+        self.nextButton.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        self.previousButton.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
         self.setWindowTabOrder()
         self.nextButton.setFocus()
@@ -107,8 +108,8 @@ class MainWindow(QMainWindow):
 
     def keyReleaseEvent(self, event):
         key = event.key()
-        print("keyReleaseEvent", "key=",
-              key, "Qt.LeftArrow=", Qt.LeftArrow, "Qt.RightArrow", Qt.RightArrow)
+        # print("keyReleaseEvent", "key=",
+            #   key, "Qt.LeftArrow=", Qt.Key.LeftArrow, "Qt.RightArrow", Qt.RightArrow)
         if key == MAC_RIGHT_ARROW_KEY:
             self.handleNext()
             self.nextButton.setFocus()
@@ -173,8 +174,7 @@ def main():
     app = QApplication(sys.argv)
     mainWindow = MainWindow()
     mainWindow.show()
-    sys.exit(app.exec_())
-
+    sys.exit(app.exec())
 
 if __name__ == '__main__':
     main()
