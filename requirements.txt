@@ -1,3 +1,4 @@
 pathlib
 pillow
 pyqt6
+python-magic

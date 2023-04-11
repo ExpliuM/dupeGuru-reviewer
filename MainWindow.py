@@ -1,18 +1,24 @@
 #!/usr/bin/python3
 
+from pathlib import Path
+import sys
+import resultsXML
+import os
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QApplication
-from PyQt6.QtWidgets import QHBoxLayout, QMainWindow, QPushButton, QVBoxLayout, QWidget
+from PyQt6.QtWidgets import\
+    QHBoxLayout,\
+    QMainWindow, \
+    QPushButton,\
+    QVBoxLayout,\
+    QWidget
 
+from widget import Widget
 
 import defines
-import imageWidget
-import os
-import resultsXML
-# import subprocess
-import sys
 
-from pathlib import Path
+# import subprocess
+
 
 # # Load external module
 # sys.path.append("modules/dupeguru")
@@ -37,28 +43,29 @@ class MainWindow(QMainWindow):
           # p = subprocess.call('puthon run.py')
           # os.chdir(wd)
 
-        #   p = subprocess.call('python3 ./modules/dupeguru/run.py')
-        #   p.wait()
+            #   p = subprocess.call('python3 ./modules/dupeguru/run.py')
+            #   p.wait()
             ...
 
         if (os.path.isfile(defines.RESULTS_FULL_FILE_PATH)):
-          self.resultsXMLObj = resultsXML.ResultsXML(defines.RESULTS_FULL_FILE_PATH)
-          self.groups = self.resultsXMLObj.getGroups()
-          self.groupsLen = self.groups.__len__()
-          self.groupIndex = 0
+            self.resultsXMLObj = resultsXML.ResultsXML(
+                defines.RESULTS_FULL_FILE_PATH)
+            self.groups = self.resultsXMLObj.getGroups()
+            self.groupsLen = self.groups.__len__()
+            self.groupIndex = 0
 
-          self.paths = self.groups[self.groupIndex].getPaths()
+            self.paths = self.groups[self.groupIndex].getPaths()
         else:
-          # scanner = Scanner()
+            # scanner = Scanner()
 
-          # scanner.scan_type = ScanType.FOLDERS
-          # dirs = directories.Directories()
-          # print(dirs)
-          # dirs.add_path(Path('/Users/explium/OneDrive - Technion/Pictures/'))
-          # files = list(dirs.get_folders())
-          # print(scanner.get_dupe_groups(files))
-          
-          self.paths = []
+            # scanner.scan_type = ScanType.FOLDERS
+            # dirs = directories.Directories()
+            # print(dirs)
+            # dirs.add_path(Path('/Users/explium/OneDrive - Technion/Pictures/'))
+            # files = list(dirs.get_folders())
+            # print(scanner.get_dupe_groups(files))
+
+            self.paths = []
 
         self.previousButton = QPushButton("previous")
         self.previousButton.clicked.connect(self.handlePrevious)
@@ -109,7 +116,7 @@ class MainWindow(QMainWindow):
     def keyReleaseEvent(self, event):
         key = event.key()
         # print("keyReleaseEvent", "key=",
-            #   key, "Qt.LeftArrow=", Qt.Key.LeftArrow, "Qt.RightArrow", Qt.RightArrow)
+        #   key, "Qt.LeftArrow=", Qt.Key.LeftArrow, "Qt.RightArrow", Qt.RightArrow)
         if key == MAC_RIGHT_ARROW_KEY:
             self.handleNext()
             self.nextButton.setFocus()
@@ -124,7 +131,7 @@ class MainWindow(QMainWindow):
 
         for path in self.paths:
             self.horizontalImageWidgetsLayout.addWidget(
-                imageWidget.ImageWidget(path))
+                Widget(path))
 
         self.horizontalImageWidgetsWidget.setLayout(
             self.horizontalImageWidgetsLayout)
@@ -153,7 +160,7 @@ class MainWindow(QMainWindow):
 
         for path in self.paths:
             self.horizontalImageWidgetsLayout.addWidget(
-                imageWidget.ImageWidget(path))
+                Widget(path))
 
         self.setWindowTabOrder()
 
@@ -175,6 +182,7 @@ def main():
     mainWindow = MainWindow()
     mainWindow.show()
     sys.exit(app.exec())
+
 
 if __name__ == '__main__':
     main()
