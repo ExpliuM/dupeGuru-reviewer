@@ -1,7 +1,11 @@
 # About
-This is a GUI program that allows you to compare and delete duplicates that dupeGuru found.
-In order to use this program you need to export `results.dupeguru` file to the main folder.
+This is a GUI program that allows you to compare and delete picture and video duplicates.
+In oder to use it you need to generate `results.dupeguru` file by using [dupeGuru](https://dupeguru.voltaicideas.net/) app to scan your folders.
 
+** notice that when you press "delete" this moves the content to a TMP folder, in case you regret it you can undo it.
+
+# Screenshots
+   ![image](./resources/readme/dupeGuru-result-reviewer.png)
 # How to use?
 1. Run dupeGuru
    ![image](./resources/readme/dupeGuru-main.png)
@@ -9,17 +13,17 @@ In order to use this program you need to export `results.dupeguru` file to the m
    ![image](./resources/readme/dupeGuru-Scanning.png)
 3. Export the results to the `workspaceFolder` of this project.
    ![image](./resources/readme/dupeGuru-Save%20Results.png)
-   ![image](./resources/readme/dupeGuru-Save%20As.png)
+   ![image](./resources/readme/dupeGuru-Save%20as.png)
 4. Run dupeGuru-result-reviewer by typing `./run.sh`
    ![image](./resources/readme/dupeGuru-result-reviewer.png)
 5. Enjoy
 
 # Prepare
-```bash
-   ./prepare.sh
+```terminal
+./prepare.sh
 ```
 
 # Run
-```bash
-  ./run.sh
+```terminal
+./run.sh
 ```
