@@ -1,27 +1,25 @@
-# Install
-```bash
-  python3 -m venv ./env
-  ./env/bin/pip3 install -r requirements.txt
+# About
+This is a GUI program that allows you to compare and delete duplicates that dupeGuru found.
+In order to use this program you need to export `results.dupeguru` file to the main folder.
 
-  mkdir -p ./module
-  cd module
-  git clone https://github.com/arsenetar/dupeguru.git
-  cd dupeguru
-  git checkout 4.3.1
-  
-  python3 -m venv --system-site-packages ./env
-  source ./env/bin/activate
-  ./env/bin/pip3 install -r requirements.txt
-  ./env/bin/python3 build.py
-  chmod +x run.py
-  cd ../../
+# How to use?
+1. Run dupeGuru
+   ![image](./resources/readme/dupeGuru-main.png)
+2. Scan the requested folder.
+   ![image](./resources/readme/dupeGuru-Scanning.png)
+3. Export the results to the `workspaceFolder` of this project.
+   ![image](./resources/readme/dupeGuru-Save%20Results.png)
+   ![image](./resources/readme/dupeGuru-Save%20As.png)
+4. Run dupeGuru-result-reviewer by typing `./run.sh`
+   ![image](./resources/readme/dupeGuru-result-reviewer.png)
+5. Enjoy
+
+# Prepare
+```bash
+   ./prepare.sh
 ```
 
 # Run
 ```bash
-  ./env/bin/python3 MainWindow.py
+  ./run.sh
 ```
-
-# Future development
- - Some of the file paths to clipboard
- - Open in finder

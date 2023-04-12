@@ -33,6 +33,9 @@ class Widget(QWidget):
 
         self.initGraphics(fileFullPath, '')
 
+        self.mediaPlayer = QMediaPlayer()
+        self.mediaPlayer.setVideoOutput(self.video)
+
         self.loadData()
 
         self.updateButtons()
@@ -124,15 +127,12 @@ class Widget(QWidget):
                 self.plainTextEdit.setPlainText(self.metaData.getMetaData())
 
             elif fileType is TYPES.VIDEO:
-                # video QMediaPlayer()
-                mediaPlayer = QMediaPlayer()
-                mediaPlayer.setSource(QUrl.fromLocalFile(file))
+                self.mediaPlayer.setSource(QUrl.fromLocalFile(file))
 
                 self.label.setVisible(False)
                 self.video.setVisible(True)
 
-                mediaPlayer.setVideoOutput(self.video)
-                mediaPlayer.play()
+                self.mediaPlayer.play()
 
                 self.metaData = metaData.metaData(file)
                 self.plainTextEdit.setPlainText(self.metaData.getMetaData())

@@ -1,9 +1,6 @@
 #!/usr/bin/python3
 
-from pathlib import Path
-import sys
-import resultsXML
-import os
+# from pathlib import Path
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtWidgets import\
@@ -13,11 +10,15 @@ from PyQt6.QtWidgets import\
     QVBoxLayout,\
     QWidget
 
+import sys
+import resultsXML
+import os
+import faulthandler
+# import subprocess
+
 from widget import Widget
 
 import defines
-
-# import subprocess
 
 
 # # Load external module
@@ -26,6 +27,7 @@ import defines
 # # from core.scanner import Scanner
 # from core import directories
 # from core.scanner import Scanner, ScanType
+faulthandler.enable()
 
 MAC_LEFT_ARROW_KEY = 16777234
 MAC_RIGHT_ARROW_KEY = 16777236

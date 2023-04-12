@@ -6,14 +6,9 @@ if [[ "$OSTYPE" == *"Ubuntu"* ]]; then
 # TODO: To verify that the condition here is good
 elif [[ "$OSTYPE" == *"darwin"* ]]; then
   echo Preparing env for MacOS
-  brew install libmagic
   # TODO: To add validation that we have brew
-  # brew install qt5
-  # brew install sphinx-doc
-  # pip3 install -U pip
-
-  # export PATH="$PATH:/opt/homebrew/Cellar/qt@5/5.15.8_2/bin"
-  # export PATH="$PATH:/usr/local/opt/sphinx-doc/bin"
+  brew install libmagic
+  brew install ffmpeg
 
 else
   echo "Currently only Ubuntu and OSX"
