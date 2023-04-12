@@ -60,8 +60,7 @@ class Widget(QWidget):
         self.lineEdit = QLineEdit()
         self.lineEdit.setText(LineEditText)
         self.lineEdit.setReadOnly(True)
-        # self.lineEdit.setDragEnabled(True)
-        # self.lineEdit.setEnabled(True)
+        self.lineEdit.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         self.plainTextEdit = QPlainTextEdit()
         self.plainTextEdit.setPlainText(plainTextEditText)
