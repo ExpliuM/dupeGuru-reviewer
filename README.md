@@ -4,8 +4,8 @@ In oder to use it you need to generate `results.dupeguru` file by using [dupeGur
 
 ** notice that when you press "delete" this moves the content to a TMP folder, in case you regret it you can undo it.
 
-# Screenshots
-   ![image](./resources/readme/dupeGuru-result-reviewer.png)
+# Usage example
+   ![image](./resources/readme/UsageExample.gif)
 # How to use?
 1. Run dupeGuru
    ![image](./resources/readme/dupeGuru-main.png)
