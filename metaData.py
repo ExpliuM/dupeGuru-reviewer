@@ -12,6 +12,7 @@ import os
 from fileType import TYPES, getFileType
 
 
+# TODO: To consider not to use class here
 class metaData():
     def __init__(self, filename):
         self.metaData = ''
@@ -31,13 +32,14 @@ class metaData():
                     data = exifdata.get(tag_id)
                     if isinstance(data, bytes):
                         data = data.decode('UTF8', 'replace')
+                    # TODO: to improve metadata we present
                     self.metaData += str(f"{tag:25}\t{data}\n")
 
             elif fileType is TYPES.VIDEO:
                 # Get meta data of video
                 vidMetaData = ffmpeg.probe(filename)
 
-                # self.metaData += str(f"{vidMetaData.metadata.__str__}\t{data}\n")
+                # TODO: To filter out only the relevant fields
                 self.metaData += json.dumps(vidMetaData,indent=1)
             else:
                 ...

@@ -9,21 +9,24 @@ from PyQt6.QtWidgets import \
     QLabel, \
     QLineEdit, \
     QMessageBox, \
-    QPlainTextEdit,\
-    QPushButton,\
-    QScrollArea,\
-    QSizePolicy,\
+    QPlainTextEdit, \
+    QPushButton, \
+    QScrollArea, \
+    QSizePolicy, \
     QVBoxLayout, \
     QWidget
+
+import logging
+import os
 
 from fileType import TYPES, getFileType
 
 import metaData
-import os
 
 TEMP_FOLDER = './TMP/'
 
 
+# TODO: To consider renaming this
 class Widget(QWidget):
     def __init__(self, fileFullPath):
         super().__init__()
@@ -108,9 +111,8 @@ class Widget(QWidget):
             file = self.fileFullPath
 
         if file:
-            print("file", file)
             fileType = getFileType(file)
-            print("fileType", fileType)
+
             if fileType is TYPES.IMAGE:
                 image = QImage(file)
                 if image.isNull():
@@ -136,17 +138,15 @@ class Widget(QWidget):
                 self.metaData = metaData.metaData(file)
                 self.plainTextEdit.setPlainText(self.metaData.getMetaData())
             else:
-                print("files other than images or videos are not supported")
+                logging.warning(
+                    "files other than images or videos are not supported")
 
     def handleDelete(self):
-        print("fileBaseName", self.fileBaseName)
-        print("handleDelete: " + self.fileFullPath)
-
         if os.path.exists(self.fileFullPath):
             os.rename(self.fileFullPath,
                       self.tmpFileFullPath)
         else:
-            print("The file " + self.fileFullPath+" does not exist")
+            logging.warning("The file " + self.fileFullPath+" does not exist")
 
         self.updateButtons()
 
@@ -157,7 +157,8 @@ class Widget(QWidget):
             os.rename(self.tmpFileFullPath,
                       self.fileFullPath)
         else:
-            print("The file " + self.tmpFileFullPath+" does not exist")
+            logging.warning(
+                "The file " + self.tmpFileFullPath+" does not exist")
 
         self.updateButtons()
 
