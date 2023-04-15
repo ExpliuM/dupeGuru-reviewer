@@ -1,15 +1,15 @@
 #!/usr/bin/python3
 
-import file
-import match
+from file import File
+from match import Match
 
 
 class Group():
     def __init__(self, element):
-        self.files = [file.File(element) for element in filter(
+        self.files = [File(element) for element in filter(
             lambda child: (child.tag == 'file'), element)]
 
-        self.matches = [match.Match(element) for element in filter(
+        self.matches = [Match(element) for element in filter(
             lambda child: (child.tag == 'match'), element)]
 
     def getFiles(self):
@@ -19,7 +19,7 @@ class Group():
         return [f.getPath() for f in self.files]
 
     def getMatches(self):
-        return self.files
+        return self.matches
 
     def __str__(self, endOfObjectDelimiter='\n', memberDelimiter='\n\t'):
         subMemberDelimiter = memberDelimiter+'\t'

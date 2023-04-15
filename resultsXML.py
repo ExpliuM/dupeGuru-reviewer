@@ -1,19 +1,19 @@
 #!/usr/bin/python3
 
-import group
-import xml.etree.ElementTree as ET
+from group import Group;
+
+import xml.etree.ElementTree as ElementTree
 
 
 class ResultsXML():
     def __init__(self, resultsXMLFileFullPath):
-        self.tree = ET.parse(resultsXMLFileFullPath)
+        self.tree = ElementTree.parse(resultsXMLFileFullPath)
 
     def getTree(self):
         return self.tree
 
     def getGroups(self):
-        groups = [group.Group(x) for x in self.tree.getroot()]
-        return groups
+        return [Group(x) for x in self.tree.getroot()]
 
     def __str__(self):
-        return ET.tostring(self.tree.getroot(), encoding='utf8', method='xml')
+        return ElementTree.tostring(self.tree.getroot(), encoding='utf8', method='xml')

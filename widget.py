@@ -11,7 +11,6 @@ from PyQt6.QtWidgets import \
     QMessageBox, \
     QPlainTextEdit, \
     QPushButton, \
-    QScrollArea, \
     QSizePolicy, \
     QVBoxLayout, \
     QWidget
