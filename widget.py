@@ -26,7 +26,7 @@ import metaData
 TEMP_FOLDER = './TMP/'
 
 
-# TODO: To consider renaming this
+# TODO: To consider renaming this ()
 class Widget(QWidget):
     def __init__(self, fileFullPath):
         super().__init__()
@@ -34,65 +34,69 @@ class Widget(QWidget):
         self.fileBaseName = os.path.basename(self.fileFullPath)
         self.tmpFileFullPath = TEMP_FOLDER + self.fileBaseName
 
-        self.initGraphics(fileFullPath, '')
+        self.initWidgets()
+        self.configWidgets(fileFullPath, '')
 
         self.mediaPlayer = QMediaPlayer()
         self.mediaPlayer.setVideoOutput(self.video)
 
-        self.loadData()
-
+        self.initLayout()
+        self.updateLayout()
         self.updateButtons()
+
+        self.loadData()
+        self.fillData()
 
         self.setTabOrder(self.deleteButton, self.undoButton)
 
-    def initGraphics(self, LineEditText, plainTextEditText):
+    def initWidgets(self):
         self.label = QLabel()
+        self.video = QVideoWidget()
+        self.lineEdit = QLineEdit()
+        self.plainTextEdit = QPlainTextEdit()
+        self.deleteButton = QPushButton("Delete")
+        self.undoButton = QPushButton("Undo")
+
+    def configWidgets(self, LineEditText, plainTextEditText):
+        self.label.adjustSize()
         self.label.setBackgroundRole(QPalette.ColorRole.Base)
         self.label.setSizePolicy(
             QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Ignored)
         self.label.setScaledContents(True)
 
-        self.video = QVideoWidget()
-        self.video.setVisible(False)
 
-        self.scrollArea = QScrollArea()
-        self.scrollArea.setBackgroundRole(QPalette.ColorRole.Dark)
-        self.scrollArea.setWidget(self.label)
-        self.scrollArea.setVisible(False)
-
-        self.lineEdit = QLineEdit()
         self.lineEdit.setText(LineEditText)
         self.lineEdit.setReadOnly(True)
         self.lineEdit.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
-        self.plainTextEdit = QPlainTextEdit()
         self.plainTextEdit.setPlainText(plainTextEditText)
         self.plainTextEdit.setFixedHeight(300)
         self.plainTextEdit.setReadOnly(True)
         self.plainTextEdit.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
-        self.deleteButton = QPushButton("Delete")
         self.deleteButton.clicked.connect(self.handleDelete)
         self.deleteButton.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
-        self.undoButton = QPushButton("Undo")
         self.undoButton.clicked.connect(self.handleUndo)
         self.undoButton.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
-        self.verticalBoxLayout = QVBoxLayout()
-        self.verticalBoxLayout.addWidget(
+    def initLayout(self):
+        self.vBoxLayout = QVBoxLayout()
+        self.setLayout(self.vBoxLayout)
+
+    def updateLayout(self):
+        self.vBoxLayout.addWidget(
             self.label, Qt.AlignmentFlag.AlignCenter)
-        self.verticalBoxLayout.addWidget(
+        self.vBoxLayout.addWidget(
             self.video, Qt.AlignmentFlag.AlignCenter)
-        self.verticalBoxLayout.addWidget(
+        self.vBoxLayout.addWidget(
             self.lineEdit, Qt.AlignmentFlag.AlignCenter)
-        self.verticalBoxLayout.addWidget(
+        self.vBoxLayout.addWidget(
             self.plainTextEdit, Qt.AlignmentFlag.AlignCenter)
-        self.verticalBoxLayout.addWidget(
+        self.vBoxLayout.addWidget(
             self.deleteButton, Qt.AlignmentFlag.AlignCenter)
-        self.verticalBoxLayout.addWidget(
+        self.vBoxLayout.addWidget(
             self.undoButton, Qt.AlignmentFlag.AlignCenter)
-        self.setLayout(self.verticalBoxLayout)
 
     def updateButtons(self):
         if os.path.exists(self.fileFullPath):
@@ -101,6 +105,21 @@ class Widget(QWidget):
         else:
             self.deleteButton.setDisabled(True)
             self.undoButton.setEnabled(True)
+
+    def fillData(self):
+        self.plainTextEdit.setPlainText(self.metaData.getMetaData())
+
+        if self.fileType is TYPES.IMAGE:
+            self.pixmap = QPixmap.fromImage(self.image)
+            self.label.setPixmap(self.pixmap)
+            self.label.resize(self.pixmap.size())
+            self.label.adjustSize()
+            self.label.setVisible(True)
+            self.video.setVisible(False)
+
+        elif self.fileType is TYPES.VIDEO:
+            self.label.setVisible(False)
+            self.video.setVisible(True)
 
     def loadData(self):
         file = False
@@ -111,27 +130,19 @@ class Widget(QWidget):
             file = self.fileFullPath
 
         if file:
-            fileType = getFileType(file)
+            self.fileType = getFileType(file)
 
-            if fileType is TYPES.IMAGE:
-                image = QImage(file)
-                if image.isNull():
+            if self.fileType is TYPES.IMAGE:
+                self.image = QImage(file)
+                
+                if self.image.isNull():
                     QMessageBox.information(
                         self, "Image Viewer", "Cannot load %s." % file)
                     return
-
-                self.label.setPixmap(QPixmap.fromImage(image))
-                self.label.resize(self.label.pixmap().size())
-                self.label.adjustSize()
-
                 self.metaData = metaData.metaData(file)
-                self.plainTextEdit.setPlainText(self.metaData.getMetaData())
 
-            elif fileType is TYPES.VIDEO:
+            elif self.fileType is TYPES.VIDEO:
                 self.mediaPlayer.setSource(QUrl.fromLocalFile(file))
-
-                self.label.setVisible(False)
-                self.video.setVisible(True)
 
                 self.mediaPlayer.play()
 
@@ -150,8 +161,6 @@ class Widget(QWidget):
 
         self.updateButtons()
 
-        self.loadData()
-
     def handleUndo(self):
         if os.path.exists(self.tmpFileFullPath):
             os.rename(self.tmpFileFullPath,
@@ -161,5 +170,3 @@ class Widget(QWidget):
                 "The file " + self.tmpFileFullPath+" does not exist")
 
         self.updateButtons()
-
-        self.loadData()

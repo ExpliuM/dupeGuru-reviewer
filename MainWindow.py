@@ -1,30 +1,30 @@
 #!/usr/bin/python3
 
-# from pathlib import Path
-import resultsXML
-from widget import Widget
 from defines import \
     COULD_NOT_FIND_RESULTS_FILE, \
     DEFAULT_RESULTS_FULL_FILE_PATH
-import sys
-import os
-import logging
+from widget import Widget
+
 import faulthandler
-from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QApplication, QFileDialog
+import logging
+import os
+import resultsXML
+import sys
+
+from PyQt6.QtCore import Qt, QDir
 from PyQt6.QtGui import QKeyEvent, QKeySequence
 from PyQt6.QtWidgets import \
+    QApplication, \
     QErrorMessage, \
+    QFileDialog, \
     QHBoxLayout, \
     QMainWindow, \
     QPushButton, \
     QVBoxLayout, \
     QWidget
 
-faulthandler.enable()
 
-MAC_LEFT_ARROW_KEY = 16777234
-MAC_RIGHT_ARROW_KEY = 16777236
+faulthandler.enable()
 
 resultsXMLFileFullPath = None
 
@@ -33,6 +33,9 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        self.initButtons()
+
+        # TODO: separate functionality and data from gui
         self.resultsXMLObj = resultsXML.ResultsXML(
             resultsXMLFileFullPath)
         self.groups = self.resultsXMLObj.getGroups()
@@ -41,40 +44,52 @@ class MainWindow(QMainWindow):
 
         self.paths = self.groups[self.groupIndex].getPaths()
 
-        self.previousButton = QPushButton("previous")
-        self.previousButton.clicked.connect(self.handlePrevious)
+        self.initWidgets()
+        self.initLayouts()
 
-        self.nextButton = QPushButton("Next")
-        self.nextButton.clicked.connect(self.handleNext)
+        self.initFocusPolicy()
 
-        self.horizontalImageWidgetsWidget = QWidget()
+        self.showMaximized()
 
-        self.createUI()
+    def initWidgets(self):
+        self.windowWidget = QWidget()
+        self.hButtonWidget = QWidget()
+        self.hWidgetsWidget = QWidget()
 
+        self.setCentralWidget(self.windowWidget)
+
+    def initFocusPolicy(self):
         self.nextButton.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.previousButton.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
         self.setWindowTabOrder()
         self.nextButton.setFocus()
 
+    def initButtons(self):
+        self.previousButton = QPushButton("previous")
+        self.previousButton.clicked.connect(self.handlePrevious)
+
+        self.nextButton = QPushButton("Next")
+        self.nextButton.clicked.connect(self.handleNext)
+
     def setWindowTabOrder(self):
-        imageWidgetsCount = self.horizontalImageWidgetsLayout.count()
-        if (imageWidgetsCount > 0):
-            widget1 = self.horizontalImageWidgetsLayout.itemAt(0).widget()
+        widgetsCount = self.hWidgetsLayout.count()
+        if (widgetsCount > 0):
+            self.hWidgetsLayout.itemAt(0).widget()
 
             self.setTabOrder(
-                self.nextButton, self.horizontalImageWidgetsLayout.itemAt(0).widget())
+                self.nextButton, self.hWidgetsLayout.itemAt(0).widget())
 
-            for i in reversed(range(self.horizontalImageWidgetsLayout.count()-1)):
-                widget1 = self.horizontalImageWidgetsLayout.itemAt(i).widget()
-                widget2 = self.horizontalImageWidgetsLayout.itemAt(
+            for i in reversed(range(self.hWidgetsLayout.count()-1)):
+                self.hWidgetsLayout.itemAt(i).widget()
+                self.hWidgetsLayout.itemAt(
                     i+1).widget()
 
-                self.setTabOrder(self.horizontalImageWidgetsLayout.itemAt(
-                    i).widget(),  self.horizontalImageWidgetsLayout.itemAt(i+1).widget())
+                self.setTabOrder(self.hWidgetsLayout.itemAt(
+                    i).widget(),  self.hWidgetsLayout.itemAt(i+1).widget())
 
-            self.setTabOrder(self.horizontalImageWidgetsLayout.itemAt(
-                imageWidgetsCount-1).widget(),  self.previousButton)
+            self.setTabOrder(self.hWidgetsLayout.itemAt(
+                widgetsCount-1).widget(),  self.previousButton)
 
         self.setTabOrder(self.previousButton, self.nextButton)
 
@@ -87,50 +102,50 @@ class MainWindow(QMainWindow):
 
     def keyReleaseEvent(self, event: QKeyEvent):
         key = event.key()
-        if key == MAC_RIGHT_ARROW_KEY:
+
+        if key == Qt.Key.Key_Escape:
+            self.close()
+
+        if key == Qt.Key.Key_Right:
             self.handleNext()
             self.nextButton.setFocus()
+            return
 
-        elif key == MAC_LEFT_ARROW_KEY:
+        elif key == Qt.Key.Key_Left:
             self.handlePrevious()
             self.previousButton.setFocus()
+            return
 
         super(MainWindow, self).keyReleaseEvent(event)
 
-    def createUI(self):
-        self.horizontalImageWidgetsLayout = QHBoxLayout()
+    def initLayouts(self):
+        self.hWidgetsLayout = QHBoxLayout()
 
         for path in self.paths:
-            self.horizontalImageWidgetsLayout.addWidget(
+            self.hWidgetsLayout.addWidget(
                 Widget(path))
 
-        self.horizontalImageWidgetsWidget.setLayout(
-            self.horizontalImageWidgetsLayout)
+        self.hWidgetsWidget.setLayout(
+            self.hWidgetsLayout)
 
-        self.horizontalButtonWidget = QWidget()
-
-        self.horizontalButtonBoxLayout = QHBoxLayout()
-        self.horizontalButtonBoxLayout.addWidget(self.previousButton)
-        self.horizontalButtonBoxLayout.addWidget(self.nextButton)
-        self.horizontalButtonWidget.setLayout(self.horizontalButtonBoxLayout)
-
-        self.centralWidget = QWidget()
+        self.hButtonBoxLayout = QHBoxLayout()
+        self.hButtonBoxLayout.addWidget(self.previousButton)
+        self.hButtonBoxLayout.addWidget(self.nextButton)
+        self.hButtonWidget.setLayout(self.hButtonBoxLayout)
 
         self.centralWidgetLayout = QVBoxLayout()
-        self.centralWidgetLayout.addWidget(self.horizontalImageWidgetsWidget)
-        self.centralWidgetLayout.addWidget(self.horizontalButtonWidget)
-        self.centralWidget.setLayout(self.centralWidgetLayout)
-        self.setCentralWidget(self.centralWidget)
+        self.centralWidgetLayout.addWidget(self.hWidgetsWidget)
+        self.centralWidgetLayout.addWidget(self.hButtonWidget)
+        self.windowWidget.setLayout(self.centralWidgetLayout)
 
-        self.showMaximized()
-
+    # TODO: to rename
     def updateUI(self):
-        for i in reversed(range(self.horizontalImageWidgetsLayout.count())):
-            self.horizontalImageWidgetsLayout.itemAt(
+        for i in reversed(range(self.hWidgetsLayout.count())):
+            self.hWidgetsLayout.itemAt(
                 i).widget().setParent(None)
 
         for path in self.paths:
-            self.horizontalImageWidgetsLayout.addWidget(
+            self.hWidgetsLayout.addWidget(
                 Widget(path))
 
         self.setWindowTabOrder()
@@ -148,7 +163,7 @@ class MainWindow(QMainWindow):
             self.updateUI()
 
 
-def openResultsFile():
+def openResultsFile(app):
     global resultsXMLFileFullPath
     # If the file exists in the default location we just load this file
     if (os.path.isfile(DEFAULT_RESULTS_FULL_FILE_PATH)):
@@ -158,9 +173,9 @@ def openResultsFile():
         # Otherwise we start dialog in order to let the user
         # select the relevant 'results.dupeguru' file
         fileDialog = QFileDialog()
-        # fileDialog.setFileMode(QFileDialog.FileMode.ExistingFile)
-        # fileDialog.setFilter(QDir.Filter.Files)
-        fileDialog.setNameFilter("*.dupeguru1")
+        fileDialog.setFileMode(QFileDialog.FileMode.ExistingFile)
+        fileDialog.setFilter(QDir.Filter.Files)
+        fileDialog.setNameFilter("dupGguru (*.dupeguru)")
         # fileDialog.set
         openFileUrl = fileDialog.getOpenFileUrl()
         logging.debug("MainWindow init openFileUrl=%s",
@@ -182,9 +197,8 @@ def main():
     logging.basicConfig(filename='logs/debugs.log',
                         encoding='utf-8', level=logging.DEBUG)
 
-    openResultsFile()
-
     app = QApplication(sys.argv)
+    openResultsFile(app)
     mainWindow = MainWindow()
     mainWindow.show()
     sys.exit(app.exec())
