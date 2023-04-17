@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+'''defines module'''
 
 SAMPLE_PNG_FULL_FILENAME = 'sample.png'
 SAMPLE_PNG_FILE_PATH = './'

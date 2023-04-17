@@ -1,19 +1,22 @@
 #!/usr/bin/python3
+'''metadata file'''
+
+import json
+import os
 
 
-# from ffprobe import FFProbe
 from PIL import Image
 from PIL.ExifTags import TAGS
 
 import ffmpeg
-import json
-import os
 
-from fileType import TYPES, getFileType
+from src.fileType import TYPES, getFileType
 
 
 # TODO: To consider not to use class here
-class metaData():
+class MetaData():
+    '''MetaData class'''
+
     def __init__(self, filename):
         self.metaData = ''
 
@@ -25,24 +28,25 @@ class metaData():
             if fileType is TYPES.IMAGE:
                 # Get meta data of image
                 self.image = Image.open(filename)
-                exifdata = self.image.getexif()
+                exifData = self.image.getexif()
 
-                for tag_id in exifdata:
-                    tag = TAGS.get(tag_id, tag_id)
-                    data = exifdata.get(tag_id)
+                for tagId in exifData:
+                    tag = TAGS.get(tagId, tagId)
+                    data = exifData.get(tagId)
                     if isinstance(data, bytes):
                         data = data.decode('UTF8', 'replace')
-                    # TODO: to improve metadata we present
+                    # TODO: to improve meta_data we present
                     self.metaData += str(f"{tag:25}\t{data}\n")
 
-            elif fileType is TYPES.VIDEO:
+            # elif file_type is TYPES.VIDEO:
                 # Get meta data of video
-                vidMetaData = ffmpeg.probe(filename)
+                videosMetaData = ffmpeg.probe(filename)
 
                 # TODO: To filter out only the relevant fields
-                self.metaData += json.dumps(vidMetaData,indent=1)
+                self.metaData += json.dumps(videosMetaData,indent=1)
             else:
-                ...
+                pass
 
     def getMetaData(self):
+        '''Unnecessary parens after 'if' keyword method'''
         return self.metaData

@@ -1,37 +1,27 @@
 #!/usr/bin/python3
+'''mainWindow module'''
 
-from defines import \
-    COULD_NOT_FIND_RESULTS_FILE, \
-    DEFAULT_RESULTS_FULL_FILE_PATH
-from widget import Widget
-
-import faulthandler
-import logging
-import os
-import resultsXML
-import sys
-
-from PyQt6.QtCore import Qt, QDir
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QKeyEvent, QKeySequence
 from PyQt6.QtWidgets import \
-    QApplication, \
-    QErrorMessage, \
-    QFileDialog, \
     QHBoxLayout, \
     QMainWindow, \
     QPushButton, \
     QVBoxLayout, \
     QWidget
 
-
-faulthandler.enable()
-
-resultsXMLFileFullPath = None
+from src.objects.resultsXML import resultsXML
+from src.widgets.widget import Widget
 
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    '''MainWindow class'''
+
+    def __init__(self, resultsXMLFileFullPath):
         super().__init__()
+
+        self.nextButton = None
+        self.previousButton = None
 
         self.initButtons()
 
@@ -52,13 +42,15 @@ class MainWindow(QMainWindow):
         self.showMaximized()
 
     def initWidgets(self):
-        self.windowWidget = QWidget()
+        '''initwidgets method'''
         self.hButtonWidget = QWidget()
         self.hWidgetsWidget = QWidget()
+        self.windowWidget = QWidget()
 
         self.setCentralWidget(self.windowWidget)
 
     def initFocusPolicy(self):
+        '''initfocuspolicy method'''
         self.nextButton.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.previousButton.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
@@ -66,6 +58,7 @@ class MainWindow(QMainWindow):
         self.nextButton.setFocus()
 
     def initButtons(self):
+        '''initButtons method'''
         self.previousButton = QPushButton("previous")
         self.previousButton.clicked.connect(self.handlePrevious)
 
@@ -73,8 +66,9 @@ class MainWindow(QMainWindow):
         self.nextButton.clicked.connect(self.handleNext)
 
     def setWindowTabOrder(self):
+        '''setWindowTabOrder method'''
         widgetsCount = self.hWidgetsLayout.count()
-        if (widgetsCount > 0):
+        if widgetsCount > 0:
             self.hWidgetsLayout.itemAt(0).widget()
 
             self.setTabOrder(
@@ -94,6 +88,7 @@ class MainWindow(QMainWindow):
         self.setTabOrder(self.previousButton, self.nextButton)
 
     def keyPressEvent(self, event: QKeyEvent):
+        '''keyPressEvent method'''
         if (event.matches(QKeySequence.StandardKey.Quit)
                 or event.matches(QKeySequence.StandardKey.Close)):
             self.close()
@@ -101,6 +96,7 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).keyPressEvent(event)
 
     def keyReleaseEvent(self, event: QKeyEvent):
+        '''keyReleaseEvent method'''
         key = event.key()
 
         if key == Qt.Key.Key_Escape:
@@ -119,6 +115,7 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).keyReleaseEvent(event)
 
     def initLayouts(self):
+        '''initLayouts method'''
         self.hWidgetsLayout = QHBoxLayout()
 
         for path in self.paths:
@@ -140,6 +137,7 @@ class MainWindow(QMainWindow):
 
     # TODO: to rename
     def updateUI(self):
+        '''updateUI'''
         for i in reversed(range(self.hWidgetsLayout.count())):
             self.hWidgetsLayout.itemAt(
                 i).widget().setParent(None)
@@ -151,60 +149,16 @@ class MainWindow(QMainWindow):
         self.setWindowTabOrder()
 
     def handleNext(self):
-        if (self.groupIndex < self.groupsLen):
+        '''handleNext method'''
+
+        if self.groupIndex < self.groupsLen:
             self.groupIndex += 1
             self.paths = self.groups[self.groupIndex].getPaths()
             self.updateUI()
 
     def handlePrevious(self):
-        if (self.groupIndex):
+        '''handlePrevious method'''
+        if self.groupIndex:
             self.groupIndex -= 1
             self.paths = self.groups[self.groupIndex].getPaths()
             self.updateUI()
-
-
-def openResultsFile(app):
-    global resultsXMLFileFullPath
-    # If the file exists in the default location we just load this file
-    if (os.path.isfile(DEFAULT_RESULTS_FULL_FILE_PATH)):
-        resultsXMLFileFullPath = DEFAULT_RESULTS_FULL_FILE_PATH
-
-    else:
-        # Otherwise we start dialog in order to let the user
-        # select the relevant 'results.dupeguru' file
-        fileDialog = QFileDialog()
-        fileDialog.setFileMode(QFileDialog.FileMode.ExistingFile)
-        fileDialog.setFilter(QDir.Filter.Files)
-        fileDialog.setNameFilter("dupGguru (*.dupeguru)")
-        # fileDialog.set
-        openFileUrl = fileDialog.getOpenFileUrl()
-        logging.debug("MainWindow init openFileUrl=%s",
-                      openFileUrl)
-
-        # in case that the user haven't picked a proper file
-        if (openFileUrl[0].isLocalFile()):
-            resultsXMLFileFullPath = openFileUrl[0].toLocalFile()
-            return
-
-        errorMessage = QErrorMessage()
-        errorMessage.showMessage(
-            COULD_NOT_FIND_RESULTS_FILE)
-
-        sys.exit()
-
-
-def main():
-    logging.basicConfig(filename='logs/debugs.log',
-                        encoding='utf-8', level=logging.DEBUG)
-
-    app = QApplication(sys.argv)
-    openResultsFile(app)
-    mainWindow = MainWindow()
-    mainWindow.show()
-    sys.exit(app.exec())
-
-
-if __name__ == '__main__':
-    main()
-
-# TODO: To compile this to linux(deb), mac(dmg), window(exe) files

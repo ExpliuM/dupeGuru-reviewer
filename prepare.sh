@@ -9,7 +9,7 @@ elif [[ "$OSTYPE" == *"darwin"* ]]; then
   # TODO: To add validation that we have brew
   brew install libmagic
   brew install ffmpeg
-
+  
 else
   echo "Currently only Ubuntu and OSX"
   exit

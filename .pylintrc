@@ -1,0 +1,14 @@
+[MAIN]
+init-hook=
+    try: import pylint_venv
+    except ImportError: pass
+    else: pylint_venv.inithook()
+
+# Naming styles
+argument-naming-style=camelCase
+attr-naming-style=camelCase
+class-attribute-naming-style=camelCase
+function-naming-style=camelCase
+method-naming-style=camelCase
+module-naming-style=camelCase
+variable-naming-style=camelCase

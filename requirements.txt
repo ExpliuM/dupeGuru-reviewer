@@ -1,5 +1,8 @@
+autopep8
 ffmpeg-python
 pathlib
 pillow
+pylint
+pylint-venv
 pyqt6
 python-magic

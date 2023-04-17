@@ -12,4 +12,4 @@
 #   exit
 # fi
 
-./env/bin/python3 MainWindow.py
+./env/bin/python3 main.py

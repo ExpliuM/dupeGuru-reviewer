@@ -1,5 +1,8 @@
 #!/usr/bin/python3
+'''widget file'''
 
+import logging
+import os
 
 from PyQt6.QtCore import Qt, QUrl
 from PyQt6.QtGui import QImage, QPalette, QPixmap
@@ -15,18 +18,16 @@ from PyQt6.QtWidgets import \
     QVBoxLayout, \
     QWidget
 
-import logging
-import os
-
-from fileType import TYPES, getFileType
-
-import metaData
+from src.fileType import TYPES, getFileType
+from src.metaData import MetaData
 
 TEMP_FOLDER = './TMP/'
 
 
 # TODO: To consider renaming this ()
 class Widget(QWidget):
+    '''Widget'''
+
     def __init__(self, fileFullPath):
         super().__init__()
         self.fileFullPath = fileFullPath
@@ -49,6 +50,7 @@ class Widget(QWidget):
         self.setTabOrder(self.deleteButton, self.undoButton)
 
     def initWidgets(self):
+        '''initWidgets'''
         self.label = QLabel()
         self.video = QVideoWidget()
         self.lineEdit = QLineEdit()
@@ -56,15 +58,15 @@ class Widget(QWidget):
         self.deleteButton = QPushButton("Delete")
         self.undoButton = QPushButton("Undo")
 
-    def configWidgets(self, LineEditText, plainTextEditText):
+    def configWidgets(self, lineEditText, plainTextEditText):
+        '''configWidgets'''
         self.label.adjustSize()
         self.label.setBackgroundRole(QPalette.ColorRole.Base)
         self.label.setSizePolicy(
             QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Ignored)
         self.label.setScaledContents(True)
 
-
-        self.lineEdit.setText(LineEditText)
+        self.lineEdit.setText(lineEditText)
         self.lineEdit.setReadOnly(True)
         self.lineEdit.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
@@ -80,10 +82,12 @@ class Widget(QWidget):
         self.undoButton.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
     def initLayout(self):
+        '''initLayout'''
         self.vBoxLayout = QVBoxLayout()
         self.setLayout(self.vBoxLayout)
 
     def updateLayout(self):
+        '''updateLayout'''
         self.vBoxLayout.addWidget(
             self.label, Qt.AlignmentFlag.AlignCenter)
         self.vBoxLayout.addWidget(
@@ -98,6 +102,7 @@ class Widget(QWidget):
             self.undoButton, Qt.AlignmentFlag.AlignCenter)
 
     def updateButtons(self):
+        '''updateButtons'''
         if os.path.exists(self.fileFullPath):
             self.deleteButton.setEnabled(True)
             self.undoButton.setDisabled(True)
@@ -106,6 +111,7 @@ class Widget(QWidget):
             self.undoButton.setEnabled(True)
 
     def fillData(self):
+        '''fillData'''
         self.plainTextEdit.setPlainText(self.metaData.getMetaData())
 
         if self.fileType is TYPES.IMAGE:
@@ -121,6 +127,7 @@ class Widget(QWidget):
             self.video.setVisible(True)
 
     def loadData(self):
+        '''loadData'''
         file = False
         if os.path.exists(self.tmpFileFullPath):
             file = self.tmpFileFullPath
@@ -133,39 +140,42 @@ class Widget(QWidget):
 
             if self.fileType is TYPES.IMAGE:
                 self.image = QImage(file)
-                
+
                 if self.image.isNull():
                     QMessageBox.information(
-                        self, "Image Viewer", "Cannot load %s." % file)
+                        self, "Image Viewer", f"Cannot load ${file}")
                     return
-                self.metaData = metaData.metaData(file)
+                self.metaData = MetaData(file)
 
             elif self.fileType is TYPES.VIDEO:
                 self.mediaPlayer.setSource(QUrl.fromLocalFile(file))
 
                 self.mediaPlayer.play()
 
-                self.metaData = metaData.metaData(file)
+                self.metaData = MetaData(file)
                 self.plainTextEdit.setPlainText(self.metaData.getMetaData())
             else:
                 logging.warning(
                     "files other than images or videos are not supported")
 
     def handleDelete(self):
+        '''handleDelete method'''
         if os.path.exists(self.fileFullPath):
             os.rename(self.fileFullPath,
                       self.tmpFileFullPath)
         else:
-            logging.warning("The file " + self.fileFullPath+" does not exist")
+            logging.warning(
+                "The file %s does not exist", self.fileFullPath)
 
         self.updateButtons()
 
     def handleUndo(self):
+        '''handleUndo method'''
         if os.path.exists(self.tmpFileFullPath):
             os.rename(self.tmpFileFullPath,
                       self.fileFullPath)
         else:
             logging.warning(
-                "The file " + self.tmpFileFullPath+" does not exist")
+                "The file %s does not exist", self.tmpFileFullPath)
 
         self.updateButtons()
