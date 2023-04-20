@@ -25,5 +25,5 @@ python3 -m venv ./env
 
 source ./env/bin/activate
 
-mkdir -p logs TMP # TODO: to move this to the python code area
+mkdir -p logs TMP # TODO: to consider moving this to the python code area
 

@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-'''widget file'''
+'''compare file'''
 
 import logging
 import os
@@ -8,37 +8,29 @@ from PyQt6.QtCore import Qt, QUrl
 from PyQt6.QtGui import QImage, QPalette, QPixmap
 from PyQt6.QtMultimedia import QMediaPlayer
 from PyQt6.QtMultimediaWidgets import QVideoWidget
-from PyQt6.QtWidgets import \
-    QLabel, \
-    QLineEdit, \
-    QMessageBox, \
-    QPlainTextEdit, \
-    QPushButton, \
-    QSizePolicy, \
-    QVBoxLayout, \
-    QWidget
+from PyQt6.QtWidgets import (
+    QLabel, QLineEdit, QMessageBox, QPlainTextEdit,
+    QPushButton, QSizePolicy, QVBoxLayout, QWidget)
 
 from src.fileType import TYPES, getFileType
 from src.metaData import MetaData
+from src.widgets.videoPlayer import VideoPlayer
 
 TEMP_FOLDER = './TMP/'
 
 
 # TODO: To consider renaming this ()
-class Widget(QWidget):
-    '''Widget'''
+class Compare(QWidget):
+    '''Compare class'''
 
-    def __init__(self, fileFullPath):
-        super().__init__()
+    def __init__(self, fileFullPath, parent=None):
+        super(Compare, self).__init__(parent)
         self.fileFullPath = fileFullPath
         self.fileBaseName = os.path.basename(self.fileFullPath)
         self.tmpFileFullPath = TEMP_FOLDER + self.fileBaseName
 
         self.initWidgets()
         self.configWidgets(fileFullPath, '')
-
-        self.mediaPlayer = QMediaPlayer()
-        self.mediaPlayer.setVideoOutput(self.video)
 
         self.initLayout()
         self.updateLayout()
@@ -50,16 +42,16 @@ class Widget(QWidget):
         self.setTabOrder(self.deleteButton, self.undoButton)
 
     def initWidgets(self):
-        '''initWidgets'''
+        '''Compare initWidgets'''
         self.label = QLabel()
-        self.video = QVideoWidget()
+        self.videoPlayer = VideoPlayer()
         self.lineEdit = QLineEdit()
         self.plainTextEdit = QPlainTextEdit()
         self.deleteButton = QPushButton("Delete")
         self.undoButton = QPushButton("Undo")
 
     def configWidgets(self, lineEditText, plainTextEditText):
-        '''configWidgets'''
+        '''Compare configWidgets'''
         self.label.adjustSize()
         self.label.setBackgroundRole(QPalette.ColorRole.Base)
         self.label.setSizePolicy(
@@ -82,16 +74,16 @@ class Widget(QWidget):
         self.undoButton.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
     def initLayout(self):
-        '''initLayout'''
+        '''Compare initLayout'''
         self.vBoxLayout = QVBoxLayout()
         self.setLayout(self.vBoxLayout)
 
     def updateLayout(self):
-        '''updateLayout'''
+        '''Compare updateLayout'''
         self.vBoxLayout.addWidget(
             self.label, Qt.AlignmentFlag.AlignCenter)
         self.vBoxLayout.addWidget(
-            self.video, Qt.AlignmentFlag.AlignCenter)
+            self.videoPlayer, Qt.AlignmentFlag.AlignCenter)
         self.vBoxLayout.addWidget(
             self.lineEdit, Qt.AlignmentFlag.AlignCenter)
         self.vBoxLayout.addWidget(
@@ -102,7 +94,7 @@ class Widget(QWidget):
             self.undoButton, Qt.AlignmentFlag.AlignCenter)
 
     def updateButtons(self):
-        '''updateButtons'''
+        '''Compare updateButtons method'''
         if os.path.exists(self.fileFullPath):
             self.deleteButton.setEnabled(True)
             self.undoButton.setDisabled(True)
@@ -111,7 +103,7 @@ class Widget(QWidget):
             self.undoButton.setEnabled(True)
 
     def fillData(self):
-        '''fillData'''
+        '''Compare fillData method'''
         self.plainTextEdit.setPlainText(self.metaData.getMetaData())
 
         if self.fileType is TYPES.IMAGE:
@@ -120,14 +112,14 @@ class Widget(QWidget):
             self.label.resize(self.pixmap.size())
             self.label.adjustSize()
             self.label.setVisible(True)
-            self.video.setVisible(False)
+            self.videoPlayer.setVisible(False)
 
         elif self.fileType is TYPES.VIDEO:
             self.label.setVisible(False)
-            self.video.setVisible(True)
+            self.videoPlayer.setVisible(True)
 
     def loadData(self):
-        '''loadData'''
+        '''Compare loadData method'''
         file = False
         if os.path.exists(self.tmpFileFullPath):
             file = self.tmpFileFullPath
@@ -148,9 +140,8 @@ class Widget(QWidget):
                 self.metaData = MetaData(file)
 
             elif self.fileType is TYPES.VIDEO:
-                self.mediaPlayer.setSource(QUrl.fromLocalFile(file))
-
-                self.mediaPlayer.play()
+                self.videoPlayer.openFile(file)
+                self.videoPlayer.play()
 
                 self.metaData = MetaData(file)
                 self.plainTextEdit.setPlainText(self.metaData.getMetaData())
@@ -159,10 +150,9 @@ class Widget(QWidget):
                     "files other than images or videos are not supported")
 
     def handleDelete(self):
-        '''handleDelete method'''
+        '''Compare handleDelete method'''
         if os.path.exists(self.fileFullPath):
-            os.rename(self.fileFullPath,
-                      self.tmpFileFullPath)
+            os.rename(self.fileFullPath, self.tmpFileFullPath)
         else:
             logging.warning(
                 "The file %s does not exist", self.fileFullPath)
@@ -170,10 +160,9 @@ class Widget(QWidget):
         self.updateButtons()
 
     def handleUndo(self):
-        '''handleUndo method'''
+        '''Compare handleUndo method'''
         if os.path.exists(self.tmpFileFullPath):
-            os.rename(self.tmpFileFullPath,
-                      self.fileFullPath)
+            os.rename(self.tmpFileFullPath, self.fileFullPath)
         else:
             logging.warning(
                 "The file %s does not exist", self.tmpFileFullPath)

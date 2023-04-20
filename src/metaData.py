@@ -4,11 +4,11 @@
 import json
 import os
 
+import ffmpeg
 
 from PIL import Image
 from PIL.ExifTags import TAGS
 
-import ffmpeg
 
 from src.fileType import TYPES, getFileType
 
@@ -38,12 +38,12 @@ class MetaData():
                     # TODO: to improve meta_data we present
                     self.metaData += str(f"{tag:25}\t{data}\n")
 
-            # elif file_type is TYPES.VIDEO:
+            elif fileType is TYPES.VIDEO:
                 # Get meta data of video
                 videosMetaData = ffmpeg.probe(filename)
 
                 # TODO: To filter out only the relevant fields
-                self.metaData += json.dumps(videosMetaData,indent=1)
+                self.metaData += json.dumps(videosMetaData, indent=1)
             else:
                 pass
 

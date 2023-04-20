@@ -3,15 +3,11 @@
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QKeyEvent, QKeySequence
-from PyQt6.QtWidgets import \
-    QHBoxLayout, \
-    QMainWindow, \
-    QPushButton, \
-    QVBoxLayout, \
-    QWidget
+from PyQt6.QtWidgets import (
+    QHBoxLayout, QMainWindow, QPushButton, QVBoxLayout, QWidget)
 
 from src.objects.resultsXML import resultsXML
-from src.widgets.widget import Widget
+from src.widgets.compare import Compare
 
 
 class MainWindow(QMainWindow):
@@ -120,7 +116,7 @@ class MainWindow(QMainWindow):
 
         for path in self.paths:
             self.hWidgetsLayout.addWidget(
-                Widget(path))
+                Compare(path))
 
         self.hWidgetsWidget.setLayout(
             self.hWidgetsLayout)
@@ -144,7 +140,7 @@ class MainWindow(QMainWindow):
 
         for path in self.paths:
             self.hWidgetsLayout.addWidget(
-                Widget(path))
+                Compare(path))
 
         self.setWindowTabOrder()
 
