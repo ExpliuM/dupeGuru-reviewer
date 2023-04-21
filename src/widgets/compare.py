@@ -3,20 +3,19 @@
 
 import logging
 import os
+import tempfile
 
-from PyQt6.QtCore import Qt, QUrl
+from pathlib import Path
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QImage, QPalette, QPixmap
-from PyQt6.QtMultimedia import QMediaPlayer
-from PyQt6.QtMultimediaWidgets import QVideoWidget
 from PyQt6.QtWidgets import (
     QLabel, QLineEdit, QMessageBox, QPlainTextEdit,
     QPushButton, QSizePolicy, QVBoxLayout, QWidget)
 
+from src.defines import APP_NAME, TEMP_FOLDER_NAME
 from src.fileType import TYPES, getFileType
 from src.metaData import MetaData
 from src.widgets.videoPlayer import VideoPlayer
-
-TEMP_FOLDER = './TMP/'
 
 
 # TODO: To consider renaming this ()
@@ -27,7 +26,10 @@ class Compare(QWidget):
         super(Compare, self).__init__(parent)
         self.fileFullPath = fileFullPath
         self.fileBaseName = os.path.basename(self.fileFullPath)
-        self.tmpFileFullPath = TEMP_FOLDER + self.fileBaseName
+
+        tempDir = tempfile.gettempdir()
+        self.tmpFileFullPath = Path(
+            tempDir, APP_NAME, TEMP_FOLDER_NAME, self.fileBaseName)
 
         self.initWidgets()
         self.configWidgets(fileFullPath, '')

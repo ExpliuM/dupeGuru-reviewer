@@ -2,6 +2,7 @@ autopep8
 ffmpeg-python
 pathlib
 pillow
+pyinstaller
 pylint
 pylint-venv
 pyqt6

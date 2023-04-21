@@ -5,15 +5,18 @@ import faulthandler
 import logging
 import os
 import sys
+import tempfile
 
+from pathlib import Path
 from PyQt6.QtWidgets import (
-    QApplication,QErrorMessage,QFileDialog)
+    QApplication, QErrorMessage, QFileDialog)
 from PyQt6.QtCore import QDir
 
 
 from src.widgets.mainWindow import MainWindow
 from src.defines import (
-    COULD_NOT_FIND_RESULTS_FILE, DEFAULT_RESULTS_FULL_FILE_PATH)
+    APP_NAME, COULD_NOT_FIND_RESULTS_FILE, DEBUG_LOG_FILE_NAME,
+    DEFAULT_RESULTS_FULL_FILE_PATH, LOGS_FOLDER_NAME, TEMP_FOLDER_NAME)
 
 # TODO: fix pylint issue with venv modules
 
@@ -51,8 +54,26 @@ def getResultsFile():
 
 def main():
     '''main function'''
+    tempDir = tempfile.gettempdir()
+    logging.debug("main tempDir=%s", tempDir)
+
+    appTempDirPath = Path(tempDir, APP_NAME)
+    if not os.path.isdir(appTempDirPath):
+        os.mkdir(appTempDirPath)
+
+    logsTempDirPath = Path(tempDir, APP_NAME, LOGS_FOLDER_NAME)
+    if not os.path.isdir(logsTempDirPath):
+        os.mkdir(logsTempDirPath)
+
+    tempTempDirPath = Path(tempDir, APP_NAME, TEMP_FOLDER_NAME)
+    if not os.path.isdir(tempTempDirPath):
+        os.mkdir(tempTempDirPath)
+
+    debugLogsFileFullPath = Path(
+        tempDir, APP_NAME, LOGS_FOLDER_NAME, DEBUG_LOG_FILE_NAME)
+
     logging.basicConfig(
-        filename='logs/debugs.log', encoding='utf-8', level=logging.DEBUG)
+        filename=debugLogsFileFullPath, encoding='utf-8', level=logging.DEBUG)
 
     app = QApplication(sys.argv)
     mainWindow = MainWindow(getResultsFile())

@@ -5,10 +5,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Python - main.py",
+      "name": "Python - dupeGuru-reviewer.py",
       "type": "python",
       "request": "launch",
-      "program": "main.py",
+      "program": "dupeGuru-reviewer.py",
       "console": "integratedTerminal",
       "justMyCode": true
     }

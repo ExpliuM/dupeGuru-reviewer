@@ -1,6 +1,11 @@
 #!/usr/bin/python3
 '''defines module'''
 
+APP_NAME = 'dupeGuru-reviewer'
+DEBUG_LOG_FILE_NAME = 'debugs.log'
+LOGS_FOLDER_NAME = 'logs'
+TEMP_FOLDER_NAME = 'TMP'
+
 SAMPLE_PNG_FULL_FILENAME = 'sample.png'
 SAMPLE_PNG_FILE_PATH = './'
 SAMPLE_PNG_FULL_FILE_PATH = SAMPLE_PNG_FILE_PATH + SAMPLE_PNG_FULL_FILENAME

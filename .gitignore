@@ -1,10 +1,25 @@
-__pycache__
+# Operation System folder and files
 .DS_Store
-.history
+
+# VsCode Enviorment
 .vscode
+
+# Python Enviorment
+__pycache__
 env
 modules
-TMP
-results.dupeguru
 
+# VSCode Add-On's
+.history
+
+# Build
+build
+dist
+dupeGuru-reviewer*.spec
+
+# Logs
 logs/*.log
+
+# App folders and files
+results.dupeguru
+TMP

@@ -7,9 +7,13 @@ if [[ "$OSTYPE" == *"Ubuntu"* ]]; then
 elif [[ "$OSTYPE" == *"darwin"* ]]; then
   echo Preparing env for MacOS
   # TODO: To add validation that we have brew
+  # App dependencies
   brew install libmagic
   brew install ffmpeg
   
+  # Build tools
+  brew install create-dmg
+
 else
   echo "Currently only Ubuntu and OSX"
   exit
@@ -25,5 +29,5 @@ python3 -m venv ./env
 
 source ./env/bin/activate
 
-mkdir -p logs TMP # TODO: to consider moving this to the python code area
+# mkdir -p logs TMP # TODO: to consider moving this to the python code area
 
