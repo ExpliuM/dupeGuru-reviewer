@@ -9,6 +9,13 @@ although dupeGuru is a great tool it doesn't provide you with conveniently file 
 
 This results reviewer is a complementary tool for dupeGuru app and it allows review and compare matching pictures/videos and to delete the unwanted duplicates.
 
+# Download
+
+| OS    | Architecture          | Type | Link                                            |
+| ----- | --------------------- | ---- | ----------------------------------------------- |
+| MacOs | Arm64(Apple Silicone) | app  | [Download](dist/dupeGuru-reviewer-arm64.tar.gz) |
+| MacOs | Arm64(Apple Silicone) | dmg  | [Download](dist/dupeGuru-reviewer-arm64.dmg)    |
+
 # ScreenShots
 
 ![image](./resources/readme/dupeGuru-result-reviewer.png)

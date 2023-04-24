@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Creating work dirs
+mkdir -p logs
+
 # TODO: To add Windows support
 if [[ "$OSTYPE" == *"Ubuntu"* ]]; then
   echo Preparing env for Ubuntu OS
@@ -28,6 +31,3 @@ python3 -m venv ./env
 ./env/bin/pip3 install -r requirements.txt
 
 source ./env/bin/activate
-
-# mkdir -p logs TMP # TODO: to consider moving this to the python code area
-
