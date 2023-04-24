@@ -13,10 +13,10 @@ This results reviewer is a complementary tool for dupeGuru app and it allows rev
 
 ## Download
 
-| OS    | Architecture          | Type | Link                                                     |
-| ----- | --------------------- | ---- | -------------------------------------------------------- |
-| MacOs | Arm64(Apple Silicone) | app  | [Download](raw/main/dist/dupeGuru-reviewer-arm64.tar.gz) |
-| MacOs | Arm64(Apple Silicone) | dmg  | [Download](raw/main/dist/dupeGuru-reviewer-arm64.dmg)    |
+| OS    | Architecture          | Type | Link                                                                                                  |
+| ----- | --------------------- | ---- | ----------------------------------------------------------------------------------------------------- |
+| MacOs | Arm64(Apple Silicone) | app  | [Download](https://github.com/ExpliuM/dupeGuru-reviewer/raw/main/dist/dupeGuru-reviewer-arm64.tar.gz) |
+| MacOs | Arm64(Apple Silicone) | dmg  | [Download](https://github.com/ExpliuM/dupeGuru-reviewer/raw/main/dist/dupeGuru-reviewer-arm64.dmg)    |
 
 ## ScreenShots
 
