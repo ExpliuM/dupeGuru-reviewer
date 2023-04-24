@@ -16,7 +16,7 @@ This results reviewer is a complementary tool for dupeGuru app and it allows rev
 | OS    | Architecture          | Type | Link                                                                                                  |
 | ----- | --------------------- | ---- | ----------------------------------------------------------------------------------------------------- |
 | MacOS | Arm64(Apple Silicone) | app  | [dupeGuru-reviewer-arm64.tar.gz](https://github.com/ExpliuM/dupeGuru-reviewer/raw/main/dist/dupeGuru-reviewer-arm64.tar.gz) |
-| ^ | ^ | dmg  | [dupeGuru-reviewer-arm64.dmg](https://github.com/ExpliuM/dupeGuru-reviewer/raw/main/dist/dupeGuru-reviewer-arm64.dmg)    |
+| MacOS | Arm64(Apple Silicone) | dmg  | [dupeGuru-reviewer-arm64.dmg](https://github.com/ExpliuM/dupeGuru-reviewer/raw/main/dist/dupeGuru-reviewer-arm64.dmg)    |
 
 ## ScreenShots
 
