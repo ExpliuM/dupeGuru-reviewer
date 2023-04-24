@@ -1,4 +1,5 @@
 # dupeGuru-reviewer
+
 ## Background
 
 [dupeGuru](https://dupeguru.voltaicideas.net/) is a tool that allows you to find duplicate files on your computer.
@@ -12,10 +13,10 @@ This results reviewer is a complementary tool for dupeGuru app and it allows rev
 
 ## Download
 
-| OS    | Architecture          | Type | Link                                            |
-| ----- | --------------------- | ---- | ----------------------------------------------- |
-| MacOs | Arm64(Apple Silicone) | app  | [Download](dist/dupeGuru-reviewer-arm64.tar.gz) |
-| MacOs | Arm64(Apple Silicone) | dmg  | [Download](dist/dupeGuru-reviewer-arm64.dmg)    |
+| OS    | Architecture          | Type | Link                                                     |
+| ----- | --------------------- | ---- | -------------------------------------------------------- |
+| MacOs | Arm64(Apple Silicone) | app  | [Download](raw/main/dist/dupeGuru-reviewer-arm64.tar.gz) |
+| MacOs | Arm64(Apple Silicone) | dmg  | [Download](raw/main/dist/dupeGuru-reviewer-arm64.dmg)    |
 
 ## ScreenShots
 
