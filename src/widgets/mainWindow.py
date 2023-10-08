@@ -24,9 +24,9 @@ class MainWindow(QMainWindow):
         # TODO: separate functionality and data from gui
         self.resultsXMLObj = resultsXML.ResultsXML(
             resultsXMLFileFullPath)
-        self.groups = self.resultsXMLObj.getGroups()
-        self.groupsLen = self.groups.__len__()
-        self.groupIndex = 0
+        self.groups = self.resultsXMLObj.getFilteredGroups()
+        self.groupsLen = len(self.groups)
+        self.groupIndex = self.resultsXMLObj.getIndexOfFirstGroupWithMoreThanOneExistingFile()
 
         self.paths = self.groups[self.groupIndex].getPaths()
 

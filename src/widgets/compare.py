@@ -7,16 +7,15 @@ import tempfile
 
 from pathlib import Path
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QImage, QPalette, QPixmap
-from PyQt6.QtWidgets import (
-    QLabel, QLineEdit, QMessageBox, QPlainTextEdit,
-    QPushButton, QSizePolicy, QVBoxLayout, QWidget)
+from PyQt6.QtGui import (QImage, QPalette, QPixmap)
+from PyQt6.QtWidgets import (QApplication,
+                             QHBoxLayout, QLabel, QLineEdit, QMessageBox, QPlainTextEdit,
+                             QPushButton, QSizePolicy, QVBoxLayout, QWidget)
 
 from src.defines import APP_NAME, TEMP_FOLDER_NAME
 from src.fileType import TYPES, getFileType
 from src.metaData import MetaData
 from src.widgets.videoPlayer import VideoPlayer
-
 
 # TODO: To consider renaming this ()
 class Compare(QWidget):
@@ -45,12 +44,16 @@ class Compare(QWidget):
 
     def initWidgets(self):
         '''Compare initWidgets'''
-        self.label = QLabel()
-        self.videoPlayer = VideoPlayer()
-        self.lineEdit = QLineEdit()
-        self.plainTextEdit = QPlainTextEdit()
+        self.copyButton = QPushButton("Copy")
         self.deleteButton = QPushButton("Delete")
+        self.hSourceBox = QWidget()
+        self.label = QLabel()
+        self.lineEdit = QLineEdit()
+        self.metaData = MetaData("")
+        self.plainTextEdit = QPlainTextEdit()
         self.undoButton = QPushButton("Undo")
+        self.videoPlayer = VideoPlayer()
+        self.fileType = TYPES.OTHER
 
     def configWidgets(self, lineEditText, plainTextEditText):
         '''Compare configWidgets'''
@@ -64,30 +67,44 @@ class Compare(QWidget):
         self.lineEdit.setReadOnly(True)
         self.lineEdit.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
+        self.copyButton.clicked.connect(self.handleCopy)
+        self.copyButton.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+
+        self.hSourceBox.setSizePolicy(
+            QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Maximum)
+
         self.plainTextEdit.setPlainText(plainTextEditText)
         self.plainTextEdit.setFixedHeight(300)
         self.plainTextEdit.setReadOnly(True)
         self.plainTextEdit.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         self.deleteButton.clicked.connect(self.handleDelete)
-        self.deleteButton.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        # self.deleteButton.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
         self.undoButton.clicked.connect(self.handleUndo)
-        self.undoButton.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        # self.undoButton.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
     def initLayout(self):
         '''Compare initLayout'''
+        self.hSourceBoxLayout = QHBoxLayout()
+        self.hSourceBox.setLayout(self.hSourceBoxLayout)
+
         self.vBoxLayout = QVBoxLayout()
         self.setLayout(self.vBoxLayout)
 
     def updateLayout(self):
         '''Compare updateLayout'''
+        self.hSourceBoxLayout.addWidget(
+            self.lineEdit)
+        self.hSourceBoxLayout.addWidget(
+            self.copyButton)
+
         self.vBoxLayout.addWidget(
             self.label, Qt.AlignmentFlag.AlignCenter)
         self.vBoxLayout.addWidget(
             self.videoPlayer, Qt.AlignmentFlag.AlignCenter)
         self.vBoxLayout.addWidget(
-            self.lineEdit, Qt.AlignmentFlag.AlignCenter)
+            self.hSourceBox, Qt.AlignmentFlag.AlignCenter)
         self.vBoxLayout.addWidget(
             self.plainTextEdit, Qt.AlignmentFlag.AlignCenter)
         self.vBoxLayout.addWidget(
@@ -99,10 +116,17 @@ class Compare(QWidget):
         '''Compare updateButtons method'''
         if os.path.exists(self.fileFullPath):
             self.deleteButton.setEnabled(True)
+            self.deleteButton.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+
             self.undoButton.setDisabled(True)
+            self.undoButton.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+
         else:
             self.deleteButton.setDisabled(True)
+            self.deleteButton.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+
             self.undoButton.setEnabled(True)
+            self.undoButton.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
     def fillData(self):
         '''Compare fillData method'''
@@ -132,8 +156,18 @@ class Compare(QWidget):
         if file:
             self.fileType = getFileType(file)
 
+            # if self.fileType is TYPES.IMAGE_HEIC:
+            #     register_heif_opener()
+            #     self.image = QImage(Image.open(file))
+
+            #     if self.image.isNull():
+            #         QMessageBox.information(
+            #             self, "Image Viewer", f"Cannot load ${file}")
+            #         return
+            #     self.metaData = MetaData(file)
+
             if self.fileType is TYPES.IMAGE:
-                self.image = QImage(file)
+                self.image = QImage(Path(file).as_posix())
 
                 if self.image.isNull():
                     QMessageBox.information(
@@ -150,6 +184,11 @@ class Compare(QWidget):
             else:
                 logging.warning(
                     "files other than images or videos are not supported")
+
+    def handleCopy(self):
+        '''Compare handleCopy method'''
+        clipboard = QApplication.clipboard()
+        clipboard.setText(self.lineEdit.text())
 
     def handleDelete(self):
         '''Compare handleDelete method'''

@@ -12,4 +12,4 @@
 #   exit
 # fi
 
-./env/bin/python3 main.py
+./env/bin/python3 dupeGuru-reviewer.py

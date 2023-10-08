@@ -24,8 +24,8 @@ from src.defines import (
 faulthandler.enable()
 
 
-def getResultsFile():
-    '''getresultsfile function'''
+def getResultsXMLFileFullPath():
+    '''getResultsXMLFileFullPath function'''
     # If the file exists in the default location we just load this file
     if os.path.isfile(DEFAULT_RESULTS_FULL_FILE_PATH):
         return DEFAULT_RESULTS_FULL_FILE_PATH
@@ -52,8 +52,8 @@ def getResultsFile():
     sys.exit()
 
 
-def main():
-    '''main function'''
+def initTempDir():
+    '''initTempDir function'''
     tempDir = tempfile.gettempdir()
     logging.debug("main tempDir=%s", tempDir)
 
@@ -69,14 +69,25 @@ def main():
     if not os.path.isdir(tempTempDirPath):
         os.mkdir(tempTempDirPath)
 
-    debugLogsFileFullPath = Path(
-        tempDir, APP_NAME, LOGS_FOLDER_NAME, DEBUG_LOG_FILE_NAME)
+    return tempDir
 
-    logging.basicConfig(
-        filename=debugLogsFileFullPath, encoding='utf-8', level=logging.DEBUG)
+
+def main():
+    '''main function'''
+    tempDir = initTempDir()
+
+    debugLogsFileFullPath = Path('./', LOGS_FOLDER_NAME, DEBUG_LOG_FILE_NAME)
+    # debugLogsFileFullPath = Path(
+    #     tempDir, APP_NAME, LOGS_FOLDER_NAME, DEBUG_LOG_FILE_NAME)
+    print("logfile:", debugLogsFileFullPath)
+
+    logging.basicConfig(filename=debugLogsFileFullPath,
+                        encoding='utf-8', level=logging.NOTSET, force=True)
+    logger = logging.getLogger(__name__)
+    logger.info('init log file')
 
     app = QApplication(sys.argv)
-    mainWindow = MainWindow(getResultsFile())
+    mainWindow = MainWindow(getResultsXMLFileFullPath())
     mainWindow.show()
     sys.exit(app.exec())
 

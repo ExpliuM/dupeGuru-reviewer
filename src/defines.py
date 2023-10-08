@@ -2,9 +2,9 @@
 '''defines module'''
 
 APP_NAME = 'dupeGuru-reviewer'
-DEBUG_LOG_FILE_NAME = 'debugs.log'
+DEBUG_LOG_FILE_NAME = 'dupeGuru-reviewer.log'
 LOGS_FOLDER_NAME = 'logs'
-TEMP_FOLDER_NAME = 'TMP'
+TEMP_FOLDER_NAME = 'tmp'
 
 SAMPLE_PNG_FULL_FILENAME = 'sample.png'
 SAMPLE_PNG_FILE_PATH = './'
