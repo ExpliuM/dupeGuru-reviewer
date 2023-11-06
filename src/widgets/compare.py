@@ -18,6 +18,8 @@ from src.metaData import MetaData
 from src.widgets.videoPlayer import VideoPlayer
 
 # TODO: To consider renaming this ()
+
+
 class Compare(QWidget):
     '''Compare class'''
 
