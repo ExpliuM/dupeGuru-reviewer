@@ -4,7 +4,7 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QKeyEvent, QKeySequence
 from PyQt6.QtWidgets import (
-    QHBoxLayout, QMainWindow, QPushButton, QVBoxLayout, QWidget)
+    QHBoxLayout, QLabel, QMainWindow, QPushButton, QVBoxLayout, QWidget)
 
 from src.objects.resultsXML import resultsXML
 from src.widgets.compare import Compare
@@ -13,13 +13,28 @@ from src.widgets.compare import Compare
 class MainWindow(QMainWindow):
     '''MainWindow class'''
 
+    # Class variables
+    resultsXMLObj = None
+
+    paths = None
+
+    # Class group variables
+    groupIndex = None
+    groups = None
+    groupsLen = None
+
+    # Class button variables
+    nextButton = None
+    previousButton = None
+
+    # Class widget variables
+    countLableWidget = None
+    hButtonWidget = None
+    hWidgetsWidget = None
+    windowWidget = None
+
     def __init__(self, resultsXMLFileFullPath):
         super().__init__()
-
-        self.nextButton = None
-        self.previousButton = None
-
-        self.initButtons()
 
         # TODO: separate functionality and data from gui
         self.resultsXMLObj = resultsXML.ResultsXML(
@@ -30,6 +45,7 @@ class MainWindow(QMainWindow):
 
         self.paths = self.groups[self.groupIndex].getPaths()
 
+        self.initButtons()
         self.initWidgets()
         self.initLayouts()
 
@@ -37,8 +53,11 @@ class MainWindow(QMainWindow):
 
         self.showMaximized()
 
+        self.updateUI()
+
     def initWidgets(self):
         '''initwidgets method'''
+        self.countLableWidget = QLabel()
         self.hButtonWidget = QWidget()
         self.hWidgetsWidget = QWidget()
         self.windowWidget = QWidget()
@@ -127,6 +146,7 @@ class MainWindow(QMainWindow):
         self.hButtonWidget.setLayout(self.hButtonBoxLayout)
 
         self.centralWidgetLayout = QVBoxLayout()
+        self.centralWidgetLayout.addWidget(self.countLableWidget)
         self.centralWidgetLayout.addWidget(self.hWidgetsWidget)
         self.centralWidgetLayout.addWidget(self.hButtonWidget)
         self.windowWidget.setLayout(self.centralWidgetLayout)
@@ -144,12 +164,15 @@ class MainWindow(QMainWindow):
 
         self.setWindowTabOrder()
 
+        self.countLableWidget.setText(f"{self.groupIndex} / {self.groupsLen}")
+
     def handleNext(self):
         '''handleNext method'''
 
         if self.groupIndex < self.groupsLen:
             self.groupIndex += 1
             self.paths = self.groups[self.groupIndex].getPaths()
+
             self.updateUI()
 
     def handlePrevious(self):
@@ -157,4 +180,5 @@ class MainWindow(QMainWindow):
         if self.groupIndex:
             self.groupIndex -= 1
             self.paths = self.groups[self.groupIndex].getPaths()
+
             self.updateUI()
