@@ -74,7 +74,8 @@ def initTempDir():
 
 def main():
     '''main function'''
-    tempDir = initTempDir()
+    initTempDir()
+    # tempDir = initTempDir()
 
     debugLogsFileFullPath = Path('./', LOGS_FOLDER_NAME, DEBUG_LOG_FILE_NAME)
     # debugLogsFileFullPath = Path(
