@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 
 from enum import Enum
+from magic import MagicException
 
+import logging
 import magic
 
 # TODO: Support additional types of files
@@ -13,14 +15,19 @@ class TYPES(Enum):
     OTHER = 4
 
 
-def getFileType(fileFullPath):
+def getFileType(file):
     '''getFileType function'''
-    mime = magic.from_file(fileFullPath, mime=True)  # 'application/pdf'
-    # if "image/heic" in mime:
-    #     return TYPES.IMAGE_HEIC
-    if "image" in mime:
-        return TYPES.IMAGE
-    elif "video" in mime:
-        return TYPES.VIDEO
+    try:
+        mime = magic.from_file(file, mime=True)  # 'application/pdf'
+
+        # if "image/heic" in mime:
+        #     return TYPES.IMAGE_HEIC
+        if "image" in mime:
+            return TYPES.IMAGE
+        elif "video" in mime:
+            return TYPES.VIDEO
+
+    except MagicException as e:
+        logging.error(e)
     
     return TYPES.OTHER
