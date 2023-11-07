@@ -4,6 +4,8 @@
 
 import logging
 
+from pathlib import Path
+
 from PyQt6.QtCore import Qt, QTime, QUrl
 from PyQt6.QtGui import QMouseEvent
 from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
@@ -174,15 +176,17 @@ class VideoPlayer(QWidget):
         msg = QMessageBox(2, "Error", message, QMessageBox.Ok)
         msg.exec()
 
-    def openFile(self, fileFullPath: str):
+    async def openFile(self, file: str):
         '''VideoPlayer openFile method'''
-        fileURL = QUrl.fromLocalFile(fileFullPath)
-        if not fileURL.isLocalFile():
-            logging.error("")
-            return
+        logging.debug("opening video file %s", file)
+        pathAsPosix = Path(file).as_posix()
+        
+        fileURL = QUrl(pathAsPosix)
 
         self.mediaPlayer.setSource(fileURL)
         self.playButton.setEnabled(True)
+
+        logging.debug("done opening video file %s", file)
 
     def play(self):
         '''VideoPlayer play method'''

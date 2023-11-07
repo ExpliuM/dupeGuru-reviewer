@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 '''compare file'''
 
+import asyncio
 import logging
 import os
 import tempfile
@@ -159,20 +160,22 @@ class Compare(QWidget):
             self.fileType = getFileType(file)
 
             if self.fileType is TYPES.IMAGE:
+                self.metaData = MetaData(file)
+
                 self.image = QImage(Path(file).as_posix())
 
                 if self.image.isNull():
                     QMessageBox.information(
                         self, "Image Viewer", f"Cannot load ${file}")
                     return
-                self.metaData = MetaData(file)
 
             elif self.fileType is TYPES.VIDEO:
-                self.videoPlayer.openFile(file)
-                self.videoPlayer.play()
-
                 self.metaData = MetaData(file)
                 self.plainTextEdit.setPlainText(self.metaData.getMetaData())
+
+                asyncio.run(self.videoPlayer.openFile(file))
+                self.videoPlayer.play()
+
             else:
                 logging.warning(
                     "files other than images or videos are not supported")
