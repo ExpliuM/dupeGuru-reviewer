@@ -6,11 +6,15 @@ import os
 
 import ffmpeg
 
+from pillow_heif import register_heif_opener
+
 from PIL import Image
 from PIL.ExifTags import TAGS
 
-
 from src.fileType import TYPES, getFileType
+
+
+register_heif_opener()
 
 
 # TODO: To consider not to use class here

@@ -2,6 +2,7 @@ autopep8
 ffmpeg-python
 pathlib
 pillow
+pillow-heif
 pyinstaller
 pylint
 pylint-venv

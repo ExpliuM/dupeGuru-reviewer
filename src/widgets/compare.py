@@ -158,16 +158,6 @@ class Compare(QWidget):
         if file:
             self.fileType = getFileType(file)
 
-            # if self.fileType is TYPES.IMAGE_HEIC:
-            #     register_heif_opener()
-            #     self.image = QImage(Image.open(file))
-
-            #     if self.image.isNull():
-            #         QMessageBox.information(
-            #             self, "Image Viewer", f"Cannot load ${file}")
-            #         return
-            #     self.metaData = MetaData(file)
-
             if self.fileType is TYPES.IMAGE:
                 self.image = QImage(Path(file).as_posix())
 

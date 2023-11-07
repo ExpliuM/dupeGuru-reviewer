@@ -10,9 +10,8 @@ import magic
 class TYPES(Enum):
     '''TYPES'''
     IMAGE = 1
-    # IMAGE_HEIC = 2 # Future feature
-    VIDEO = 3
-    OTHER = 4
+    VIDEO = 2
+    OTHER = 3
 
 
 def getFileType(file):
@@ -20,8 +19,6 @@ def getFileType(file):
     try:
         mime = magic.from_file(file, mime=True)  # 'application/pdf'
 
-        # if "image/heic" in mime:
-        #     return TYPES.IMAGE_HEIC
         if "image" in mime:
             return TYPES.IMAGE
         elif "video" in mime:
