@@ -1,11 +1,9 @@
 # Operation System folder and files
 .DS_Store
 
-# VsCode Enviorment
-.vscode
-
 # Python Enviorment
 __pycache__
+.venv
 env
 modules
 

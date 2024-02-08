@@ -1,0 +1,20 @@
+{
+    "recommendations": [
+        "redhat.vscode-xml",
+        "chakrounanas.turbo-console-log",
+        "gruntfuggly.todo-tree",
+        "wayou.vscode-todo-highlight",
+        "ms-python.python",
+        "ms-python.pylint",
+        "ms-python.vscode-pylance",
+        "yzhang.markdown-all-in-one",
+        "ms-python.isort",
+        "visualstudioexptteam.intellicode-api-usage-examples",
+        "visualstudioexptteam.vscodeintellicode",
+        "github.vscode-pull-request-github",
+        "donjayamanne.githistory",
+        "withfig.fig",
+        "ms-python.black-formatter",
+        "ms-python.autopep8"
+    ]
+}
