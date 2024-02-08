@@ -20,12 +20,11 @@ from src.widgets.videoPlayer import VideoPlayer
 
 # TODO: To consider renaming this ()
 
-
-class Compare(QWidget):
+class CompareWidget(QWidget):
     '''Compare class'''
 
     def __init__(self, fileFullPath, parent=None):
-        super(Compare, self).__init__(parent)
+        super(CompareWidget, self).__init__(parent)
         self.fileFullPath = fileFullPath
         self.fileBaseName = os.path.basename(self.fileFullPath)
 

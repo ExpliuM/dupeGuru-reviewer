@@ -23,7 +23,6 @@ from src.defines import (
 
 faulthandler.enable()
 
-
 def getResultsXMLFileFullPath():
     '''getResultsXMLFileFullPath function'''
     # If the file exists in the default location we just load this file

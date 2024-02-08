@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import (
     QHBoxLayout, QLabel, QMainWindow, QPushButton, QVBoxLayout, QWidget)
 
 from src.objects.resultsXML import resultsXML
-from src.widgets.compare import Compare
+from src.widgets.compareWidget import CompareWidget
 
 
 class MainWindow(QMainWindow):
@@ -135,7 +135,7 @@ class MainWindow(QMainWindow):
 
         for path in self.paths:
             self.hWidgetsLayout.addWidget(
-                Compare(path))
+                CompareWidget(path))
 
         self.hWidgetsWidget.setLayout(
             self.hWidgetsLayout)
@@ -160,7 +160,7 @@ class MainWindow(QMainWindow):
 
         for path in self.paths:
             self.hWidgetsLayout.addWidget(
-                Compare(path))
+                CompareWidget(path))
 
         self.setWindowTabOrder()
 
