@@ -6,5 +6,5 @@ pillow-heif
 pyinstaller
 pylint
 pylint-venv
-pyqt6
+PyQt6
 python-magic
