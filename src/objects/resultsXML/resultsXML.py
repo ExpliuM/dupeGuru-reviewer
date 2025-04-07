@@ -25,7 +25,9 @@ class ResultsXML():
         '''getGroups method'''
         groups = self.getGroups()
 
-        return list(filter(self.filterGroupsWithHeicFiles, groups))
+        sortedGroups = sorted(groups, key=lambda group: group.percentagesAvg)
+
+        return list(filter(self.filterGroupsWithHeicFiles, sortedGroups))
 
     def filterGroupsWithHeicFiles(self, group: Group):
         '''filterGroupsWithHeicFiles method'''

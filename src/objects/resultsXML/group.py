@@ -4,6 +4,7 @@
 from src.objects.resultsXML.file import File
 from src.objects.resultsXML.match import Match
 
+
 class Group():
     '''Group class'''
 
@@ -13,6 +14,10 @@ class Group():
 
         self.matches = [Match(element) for element in filter(
             lambda child: (child.tag == 'match'), element)]
+
+        percentages = [match.percentage for match in self.matches]
+
+        self.percentagesAvg = sum(percentages) / len(percentages)
 
     def getFiles(self):
         '''getFiles method'''

@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 '''mainWindow module'''
+import os
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QKeyEvent, QKeySequence
@@ -9,6 +10,8 @@ from PyQt6.QtWidgets import (
 from src.objects.resultsXML import resultsXML
 from src.widgets.compareWidget import CompareWidget
 
+
+os.environ['QT_IMAGEIO_MAXALLOC'] = "500"
 
 class MainWindow(QMainWindow):
     '''MainWindow class'''

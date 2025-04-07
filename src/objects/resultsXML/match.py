@@ -9,7 +9,7 @@ class Match():
         self.element = element
         self.first = element.attrib['first']
         self.second = element.attrib['second']
-        self.percentage = element.attrib['percentage']
+        self.percentage = int(element.attrib['percentage'])
 
     def __str__(self,
                 endOfObjectDelimiter='\n',

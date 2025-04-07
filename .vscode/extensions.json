@@ -1,20 +1,20 @@
 {
     "recommendations": [
-        "redhat.vscode-xml",
-        "chakrounanas.turbo-console-log",
+        "donjayamanne.githistory",
         "gruntfuggly.todo-tree",
-        "wayou.vscode-todo-highlight",
-        "ms-python.python",
-        "ms-python.pylint",
-        "ms-python.vscode-pylance",
-        "yzhang.markdown-all-in-one",
+        "ms-python.autopep8",
+        "ms-python.black-formatter",
         "ms-python.isort",
+        "ms-python.pylint",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "redhat.vscode-xml",
+        "streetsidesoftware.code-spell-checker",
+        "ue.alphabetical-sorter",
         "visualstudioexptteam.intellicode-api-usage-examples",
         "visualstudioexptteam.vscodeintellicode",
-        "github.vscode-pull-request-github",
-        "donjayamanne.githistory",
+        "wayou.vscode-todo-highlight",
         "withfig.fig",
-        "ms-python.black-formatter",
-        "ms-python.autopep8"
+        "yzhang.markdown-all-in-one",
     ]
 }

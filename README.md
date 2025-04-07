@@ -13,10 +13,10 @@ This results reviewer is a complementary tool for dupeGuru app and it allows rev
 
 ## Download
 
-| OS    | Architecture          | Type | Link                                                                                                  |
-| ----- | --------------------- | ---- | ----------------------------------------------------------------------------------------------------- |
+| OS    | Architecture          | Type | Link                                                                                                                        |
+| ----- | --------------------- | ---- | --------------------------------------------------------------------------------------------------------------------------- |
 | MacOS | Arm64(Apple Silicone) | app  | [dupeGuru-reviewer-arm64.tar.gz](https://github.com/ExpliuM/dupeGuru-reviewer/raw/main/dist/dupeGuru-reviewer-arm64.tar.gz) |
-| MacOS | Arm64(Apple Silicone) | dmg  | [dupeGuru-reviewer-arm64.dmg](https://github.com/ExpliuM/dupeGuru-reviewer/raw/main/dist/dupeGuru-reviewer-arm64.dmg)    |
+| MacOS | Arm64(Apple Silicone) | dmg  | [dupeGuru-reviewer-arm64.dmg](https://github.com/ExpliuM/dupeGuru-reviewer/raw/main/dist/dupeGuru-reviewer-arm64.dmg)       |
 
 ## ScreenShots
 
@@ -58,3 +58,9 @@ In oder to use this app you need to generate `results.dupeguru` file by scanning
 ```terminal
 ./run.sh
 ```
+
+## Incoming features
+
+- Print match
+- Ignore list
+- Skip till next/previous
